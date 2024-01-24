@@ -5,10 +5,13 @@ use FpDbTest\DatabaseTest;
 
 spl_autoload_register(function ($class) {
     $a = array_slice(explode('\\', $class), 1);
-    if (!$a) {
-        throw new Exception();
+    if ( ! $a ) {
+        throw new Exception('Class name ' . $class . ' is incorrect.');
     }
     $filename = implode('/', [__DIR__, ...$a]) . '.php';
+    if ( ! file_exists($filename) ) {
+        throw new Exception('Autoloading class ' . $class . ' was filed.');
+    }
     require_once $filename;
 });
 
